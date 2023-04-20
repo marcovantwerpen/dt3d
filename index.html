@@ -9,53 +9,52 @@
   <!-- Include the CesiumJS JavaScript and CSS files -->
 
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
-
+  <script src="source/hoog.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-  <div id="cesiumContainer"></div>
-
-  <script>
-    // Your access token can be found at: https://ion.cesium.com/tokens.
-    // This is the default access token from your ion account
-
-
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5NzgxMWU2My1jNjQyLTRmZjgtYjU4OC1jMmQ4YWM2M2ZlMmYiLCJpZCI6NDA4OTQsImlhdCI6MTYwOTM1NDY3MH0.GAoOxzRX51YjwYzvczTHWT-c25S45oeBsUJPp0dV8m4';
-
-    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
-
-    const viewer = new Cesium.Viewer('cesiumContainer', {
-
-      terrainProvider: Cesium.createWorldTerrain()
-
-    });    
-
-    // Add Cesium OSM Buildings, a global 3D buildings layer.
-
-    const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());   
-
-    // Fly the camera to San Francisco at the given longitude, latitude, and height.
-
-    viewer.camera.flyTo({
-
-      destination : Cesium.Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-
-      orientation : {
-
-        heading : Cesium.Math.toRadians(0.0),
-
-        pitch : Cesium.Math.toRadians(-15.0),
-
+ <style>
+      @import url(../templates/bucket.css);
+      #toolbar {
+        background: rgba(42, 42, 42, 0.8);
+        padding: 4px;
+        border-radius: 4px;
       }
-
-    });
-
-  </script>
-
- </div>
+      #toolbar input {
+        vertical-align: middle;
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+      #toolbar .header {
+        font-weight: bold;
+      }
+    </style>
+    <div id="cesiumContainer" class="fullSize"></div>
+    <div id="loadingOverlay"><h1>Loading...</h1></div>
+    <div id="toolbar">
+      <table>
+        <tbody>
+          <tr>
+            <td>Exaggeration</td>
+            <td>
+              <input type="range" min="0" max="10" step="0.01" data-bind="value: exaggeration, valueUpdate: 'input'">
+              <input type="text" size="5" data-bind="value: exaggeration">
+            </td>
+          </tr>
+          <tr>
+            <td>Relative Height</td>
+            <td>
+              <input type="range" min="-1000" max="9000" step="1" data-bind="value: relativeHeight, valueUpdate: 'input'">
+              <input type="text" size="5" data-bind="value: relativeHeight">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
 
 </body>
 
