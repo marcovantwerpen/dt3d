@@ -1,65 +1,25 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
-
-  <!-- Include the CesiumJS JavaScript and CSS files -->
-
- 
-  
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
-  <script src="https://marcovantwerpen.github.io/dt3d/source/hoog.js"></script>
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/lighter.css" rel="stylesheet">
-
-
-</head>
-
-<body>
-
- <style>
-      @import url(../dt3d/source/Widgets/bucket.css);
-      #toolbar {
-        background: rgba(42, 42, 42, 0.8);
-        padding: 4px;
-        border-radius: 4px;
-      }
-      #toolbar input {
-        vertical-align: middle;
-        padding-top: 2px;
-        padding-bottom: 2px;
-      }
-      #toolbar .header {
-        font-weight: bold;
-      }
+    <meta charset="UTF-8">
+    <title>Cesium Basic Viewer</title>
+    <style>
+        /* Set the viewer container height */
+        #cesiumContainer {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
     </style>
-    <div id="cesiumContainer" class="fullSize"></div>
-    <div id="loadingOverlay"><h1>Loading...</h1></div>
-    <div id="toolbar">
-      <table>
-        <tbody>
-          <tr>
-            <td>Exaggeration</td>
-            <td>
-              <input type="range" min="0" max="10" step="0.01" data-bind="value: exaggeration, valueUpdate: 'input'">
-              <input type="text" size="5" data-bind="value: exaggeration">
-            </td>
-          </tr>
-          <tr>
-            <td>Relative Height</td>
-            <td>
-              <input type="range" min="-1000" max="9000" step="1" data-bind="value: relativeHeight, valueUpdate: 'input'">
-              <input type="text" size="5" data-bind="value: relativeHeight">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-
+    <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css">
+</head>
+<body>
+    <div id="cesiumContainer"></div>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+    <script>
+        // Create the Cesium Viewer
+        var viewer = new Cesium.Viewer('cesiumContainer');
+    </script>
 </body>
-
 </html>
