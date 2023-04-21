@@ -21,61 +21,27 @@
       // Add Cesium OSM Buildings, a global 3D buildings layer.
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
 
+      // Create a new GeoJsonDataSource and set the stroke properties
+      const dataSource = new Cesium.GeoJsonDataSource();
+      dataSource.load('https://marcovantwerpen.github.io/dt3d/grensmburg.geojson').then(function() {
+        viewer.dataSources.add(dataSource);
+        const entities = dataSource.entities.values;
+        for (let i = 0; i < entities.length; i++) {
+          const entity = entities[i];
+          entity.polyline.width = 2;
+          entity.polyline.material = Cesium.Color.RED;
+        }
+      });
+
       // Fly the camera to 'Abdij 6, Middelburg, The Netherlands'
       viewer.camera.flyTo({
-  destination: Cesium.Cartesian3.fromDegrees(3.611, 51.478, 1600),
-  orientation: {
-    heading: Cesium.Math.toRadians(0.0),
-    pitch: Cesium.Math.toRadians(-40.0)
-  },
-  duration: 1 // duration in seconds
-});
-
-
-// Load GeoJSON data from file
-Cesium.GeoJsonDataSource.load('https://marcovantwerpen.github.io/dt3d/grensmburg.geojson').then(function(dataSource) {
-
-// Add the data source to the map
-viewer.dataSources.add(dataSource);
-
-// Get the bounding rectangle of the data source
-var boundingRectangle = dataSource.entities.computeExtent(viewer.scene).rectangle;
-
-// Create a rectangle that covers the entire globe
-var globeRectangle = new Cesium.Rectangle(-Math.PI, -Math.PI, Math.PI, Math.PI);
-
-// Create a rectangle that covers the area outside of the bounding rectangle
-var outsideRectangle = Cesium.Rectangle.subtract(globeRectangle, boundingRectangle, new Cesium.Rectangle());
-
-// Create a material that makes the area outside the bounding rectangle transparent
-var transparentMaterial = new Cesium.Color(0, 0, 0, 0);
-
-// Create a rectangle graphics object that uses the transparent material
-var rectangleGraphics = new Cesium.RectangleGraphics({
-  coordinates: outsideRectangle,
-  material: transparentMaterial
-});
-
-// Apply the rectangle graphics to the map
-viewer.scene.primitives.add(new Cesium.Primitive({
-  geometryInstances: new Cesium.GeometryInstance({
-    geometry: new Cesium.RectangleGeometry({
-      rectangle: outsideRectangle,
-      vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
-    }),
-    id: 'transparent-rectangle'
-  }),
-  appearance: new Cesium.EllipsoidSurfaceAppearance({
-    aboveGround: false,
-    material: transparentMaterial
-  })
-}));
-
-}).otherwise(function(error){
-// Handle any errors that occur during GeoJSON data loading
-console.error(error);
-});
-
+        destination: Cesium.Cartesian3.fromDegrees(3.611, 51.478, 2600),
+        orientation: {
+          heading: Cesium.Math.toRadians(0.0),
+          pitch: Cesium.Math.toRadians(-40.0)
+        },
+        duration: 1 // duration in seconds
+      });
     </script>
   </body>
 </html>
