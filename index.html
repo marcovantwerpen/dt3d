@@ -30,6 +30,52 @@
   },
   duration: 1 // duration in seconds
 });
+
+
+// Load GeoJSON data from file
+Cesium.GeoJsonDataSource.load('https://marcovantwerpen.github.io/dt3d/grensmburg.geojson').then(function(dataSource) {
+
+// Add the data source to the map
+viewer.dataSources.add(dataSource);
+
+// Get the bounding rectangle of the data source
+var boundingRectangle = dataSource.entities.computeExtent(viewer.scene).rectangle;
+
+// Create a rectangle that covers the entire globe
+var globeRectangle = new Cesium.Rectangle(-Math.PI, -Math.PI, Math.PI, Math.PI);
+
+// Create a rectangle that covers the area outside of the bounding rectangle
+var outsideRectangle = Cesium.Rectangle.subtract(globeRectangle, boundingRectangle, new Cesium.Rectangle());
+
+// Create a material that makes the area outside the bounding rectangle transparent
+var transparentMaterial = new Cesium.Color(0, 0, 0, 0);
+
+// Create a rectangle graphics object that uses the transparent material
+var rectangleGraphics = new Cesium.RectangleGraphics({
+  coordinates: outsideRectangle,
+  material: transparentMaterial
+});
+
+// Apply the rectangle graphics to the map
+viewer.scene.primitives.add(new Cesium.Primitive({
+  geometryInstances: new Cesium.GeometryInstance({
+    geometry: new Cesium.RectangleGeometry({
+      rectangle: outsideRectangle,
+      vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
+    }),
+    id: 'transparent-rectangle'
+  }),
+  appearance: new Cesium.EllipsoidSurfaceAppearance({
+    aboveGround: false,
+    material: transparentMaterial
+  })
+}));
+
+}).otherwise(function(error){
+// Handle any errors that occur during GeoJSON data loading
+console.error(error);
+});
+
     </script>
   </body>
 </html>
