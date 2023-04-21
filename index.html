@@ -15,20 +15,21 @@
 
       // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
       const viewer = new Cesium.Viewer('cesiumContainer', {
-        terrainProvider: Cesium.createWorldTerrain(),
-        sceneMode: Cesium.SceneMode.SCENE3D,
-        
-          camera: {
-      // Set the initial position of the camera to 'Abdij 6, Middelburg, The Netherlands'
-      position: Cesium.Cartesian3.fromDegrees(3.613, 51.498, 300),
-      heading: Cesium.Math.toRadians(0),
-      pitch: Cesium.Math.toRadians(-15),
-      roll: 0
-}
+        terrainProvider: Cesium.createWorldTerrain()
       });
 
       // Add Cesium OSM Buildings, a global 3D buildings layer.
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
+
+      // Fly the camera to 'Abdij 6, Middelburg, The Netherlands'
+      viewer.camera.flyTo({
+  destination: Cesium.Cartesian3.fromDegrees(3.611, 51.478, 1600),
+  orientation: {
+    heading: Cesium.Math.toRadians(0.0),
+    pitch: Cesium.Math.toRadians(-40.0)
+  },
+  duration: 1 // duration in seconds
+});
     </script>
   </body>
 </html>
